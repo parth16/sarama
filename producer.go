@@ -62,7 +62,8 @@ func (config *ProducerConfig) Validate() error {
 
 // Producer publishes Kafka messages. It routes messages to the correct broker
 // for the provided topic-partition, refreshing metadata as appropriate, and
-// parses responses for errors. You must call Close() on a producer to avoid
+// parses responses for errors. You must read from the Errors() channel or the
+// producer will deadlock. You must call Close() on a producer to avoid
 // leaks: it will not be garbage-collected automatically when it passes out of
 // scope (this is in addition to calling Close on the underlying client, which
 // is still necessary).
@@ -132,8 +133,8 @@ type ProduceError struct {
 	Err error
 }
 
-// Errors is the output channel back to the user. If you do not read from this channel,
-// the Producer may deadlock. It is suggested that you send messages and read errors in a select statement.
+// Errors is the output channel back to the user. You MUST read from this channel or the Producer will deadlock.
+// It is suggested that you send messages and read errors together in a single select statement.
 func (p *Producer) Errors() <-chan *ProduceError {
 	return p.errors
 }
