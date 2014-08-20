@@ -18,8 +18,5 @@ before_install:
 - go get github.com/mattn/goveralls
 - go get code.google.com/p/go.tools/cmd/cover
 
-notifications:
-  flowdock: 15e08f7ed3a8fd2d89ddb36435301c1a
-
 script:
-$HOME/gopath/bin/goveralls -repotoken 6i8bXasDLPJ3sSgGj5Tgno3oYvgLzEnHy
+- $HOME/gopath/bin/goveralls -repotoken 6i8bXasDLPJ3sSgGj5Tgno3oYvgLzEnHy
